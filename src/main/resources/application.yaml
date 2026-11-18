@@ -1,0 +1,40 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: hmdp-shortlink
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shortlink?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: 123456
+  redis:
+    host: 192.168.159.100
+    port: 6379
+    password: 123456
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+  jackson:
+    default-property-inclusion: non_null
+
+shortlink:
+  domain: http://localhost:8082/   # 短链域名，末尾斜杠
+  api-key: shortlink-api-key       # 管理接口 X-Api-Key
+  bloom:
+    bits: 10000000                 # 1000 万位
+  limit:
+    capacity: 20                   # 令牌桶容量
+    rate: 1                        # 每秒补充 1 个令牌
+
+mybatis-plus:
+  type-aliases-package: com.shortlink.entity
+logging:
+  level:
+    com.shortlink: debug
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
